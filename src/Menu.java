@@ -1,101 +1,91 @@
-//import java.util.ArrayList;
-//import java.util.Random;
-//import java.util.Scanner;
-//
-//public class ToDoList {
-//    private static String[] menu; // this is a menu of tasks
-//    private String answer;
-//    private ArrayList<Task> tasks; // Task holder
-//    private int count; // sum of added tasks
-//
-//
-//    public ToDoList() {
-//
-//        // new empty Todo list
-//
-//        this.tasks = new ArrayList<>();
-//        this.menu = new String[5];
-//        this.count = 0;
-//
-//    }
-//
-//    public void addTask() {
-//
-//        Task task = new Task();
-//
-//        System.out.println(">Project");
-//        Scanner scanner = new Scanner(System.in);
-//        String project = scanner.nextLine();
-//        task.setProject(project);
-//
-//        System.out.println(">Title");
-//        String title = scanner.nextLine();
-//        task.setTitle(title);
-//
-//        System.out.println(">Status");
-//        String status = scanner.nextLine();
-//        task.setStatus(status);
-//
-//        System.out.println(">Date");
-//        String date = scanner.nextLine();
-//        task.setDate(date);
-//
-//        if (tasks.size() == 0) {
-//            task.setId(1);
-//        } else {
-//            task.setId(tasks.size() + 1);
-//        }
-//
-//        tasks.add(task);
-////        for (int i = 0; i < tasks.size(); i++) {
-////            System.out.println(tasks.get(i).getTitle());
-////        }
-//
-//    }
-//
-//    public static void setMenu() {
-//
-//        int choice = 1;
-//        while (choice != 0) {
-//            System.out.println();
-//            System.out.println("Welcome to the TODO list");
-//            System.out.println();
-//            System.out.println("Please, select the option from the menu: ");
-//            System.out.println();
-//            System.out.println(">>>> 1 - Add new task");
-//            System.out.println(">>>> 2 - Show task list");
-//            System.out.println(">>>> 3 - Filter tasks");
-//            System.out.println(">>>> 4 - Edit task");
-//            System.out.println(">>>> 5 - Save and Quit");
-//
-//            Scanner scanner = new Scanner(System.in);
-//            int answer = scanner.nextInt();
-//
-//            if (answer == 1) {
-//
-//
-//
-//            }
-//
-//            /*System.out.println("write name, date, time");
-//            String fields = sc.nextLine();
-//            "task1 january 23:00" --> ["task1", "januray", "23:00"]
-//            array = ["task1", "januray", "23:00"]
-//            tasks.add(new Task(array[0], array[1], getDate())); */
-//            break;
-//        }
-//
-//        //switch {}
-//    /*
-//
-//        private String[] copyArray(String[] args, int from, int to) {
-//        ArrayList<String> result = new ArrayList<String>();
-//        for (int j = from; j != to; ++j) {
-//        result.add(args[j]);
-//        }
-//        return result.toArray(new String[result.size()]);
-//       }
-//     */
-//
-//    }
-//}
+import java.time.LocalDate;
+import java.util.Scanner;
+
+public class Menu {
+
+
+    public void setMenu() {
+
+            //print menu
+            int m = 1;
+            while(m != 0) {
+                System.out.println();
+                System.out.println();
+                System.out.println(">> Welcome to TO-DO List");
+                System.out.println("==========================================");
+                System.out.println("You have X tasks todo and Y task are done!"); // stream filter
+                System.out.println("==========================================");
+                System.out.println();
+                System.out.println(">>  Pick an option: ");
+                System.out.println();
+                System.out.println(">>  1 - Show Task List"); //by date or project (how?) filter
+                System.out.println(">>  2 - Add New Task");
+                System.out.println(">>  3 - Edit Task (update, mark as done)");
+                System.out.println(">>  4 - Remove Task");
+                System.out.println(">>  0 - Save and Quit");
+
+                Scanner in = new Scanner(System.in);
+                System.out.println();
+                System.out.println(">>  Enter your menu choice: ");
+                String choice = in.nextLine();
+                TaskList tasks = new TaskList();
+
+
+                switch (choice) {
+
+                    case "1":
+                        if (choice.equals("1")) {
+                            System.out.println(tasks.size()); //Show all tasks
+                        }
+                        break;
+
+                    case "2":
+
+                        if (choice.equals("2")) {
+
+                            System.out.println("Enter date of the task: ");
+                            LocalDate date = LocalDate.parse(in.nextLine());
+
+                            System.out.println("Enter project of the task: "); // Add task
+                            Project project = new Project(in.nextLine()) ;
+
+                            System.out.println("Enter title of the task: ");
+                            String title = in.nextLine();
+                            //System.out.println("Set status for the task: ");
+
+                            Task n = new Task(date, false, project, title);
+
+                            tasks.addTask(n);
+                            System.out.println();
+                            System.out.println();
+                            System.out.println("You have added a new task: " + n);
+                            System.out.println("---------------------------------------------------------------");
+                        }
+                        break;
+
+                    case "3":
+                        // update task or change status
+                        break;
+
+                    case "4":
+                        // delete task by index
+                        break;
+
+                    case "0":
+                        // save(write list of tasks into a .txt file) and quit
+                        break;
+
+                    default:
+                        // what is default?
+                        break;
+
+                 /*
+                 WHY IS IT NOT WORKING?
+                  */
+
+
+                }
+            }
+
+     }
+}

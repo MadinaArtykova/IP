@@ -1,8 +1,7 @@
 import java.util.ArrayList;
-import java.util.Iterator;
+
 
 public class TaskList extends ArrayList<Task> {
-
 
     public boolean addTask(Task newTask) {
         boolean successed = true;
@@ -14,5 +13,9 @@ public class TaskList extends ArrayList<Task> {
             }
         } this.add(newTask);
         return successed;
+    }
+
+    public int showTaskSize(){
+        return showTaskSize();
     }
 }

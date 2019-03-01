@@ -4,7 +4,6 @@ public class Task {
 
     private LocalDate date;
     private boolean status;
-//    private int id;
     private Project project;
     private String title;
 
@@ -15,35 +14,47 @@ public class Task {
         this.title = title;
     }
 
+    public Task(LocalDate date, boolean status, String project, String title) {
+
+    }
+
     public LocalDate getDate() {
+
         return date;
     }
 
     public void setDate(LocalDate date) {
+
         this.date = date;
     }
 
     public boolean isStatus() {
+
         return status;
     }
 
     public void setStatus(boolean status) {
+
         this.status = status;
     }
 
     public Project getProject() {
+
         return project;
     }
 
     public void setProject(Project project) {
+
         this.project = project;
     }
 
     public String getTitle() {
+
         return title;
     }
 
     public void setTitle(String title) {
+
         this.title = title;
     }
 
