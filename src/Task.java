@@ -1,9 +1,11 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Task {
+public class Task implements Serializable {
 
-    private LocalDate date;
-    private boolean status;
+
+    private LocalDate date;             // IF I put id number as a point to start writing tasks into a file
+    private boolean status;             // I need new field named id or maybe date also be good for it..?
     private Project project;
     private String title;
 
@@ -14,7 +16,7 @@ public class Task {
         this.title = title;
     }
 
-    public Task(LocalDate date, boolean status, String project, String title) {
+    public Task() {
 
     }
 
