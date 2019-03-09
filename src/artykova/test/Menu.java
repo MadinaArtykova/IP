@@ -24,7 +24,6 @@ public class Menu {
             System.out.println("==========================================");
             System.out.println();
             System.out.println(">>  Pick an option: ");
-            System.out.println();
             System.out.println(">>  1 - Show Task List"); // by date or project (how?) filter
             System.out.println(">>  2 - Add New Task");
             System.out.println(">>  3 - Edit Task (update, mark as done)"); // how to do this?
@@ -45,10 +44,10 @@ public class Menu {
                     System.out.println();
                     System.out.println("You have " + tasks.getSize() + " tasks. ");
                     System.out.println("---------------------------------------------");
-                    System.out.println("Date \t Status \t Project \t Title");
-                    System.out.println();
+                    System.out.println("Title \t Status \t Project \t Date");
+                    System.out.println(tasks);
                     System.out.println("-------loading...----------------------------");
-                        // print             date,  status,   project,  title      of all projects
+                        // it suppose to print tasks as a table. how to do this?
                     System.out.println();
 
                     break;
@@ -77,10 +76,12 @@ public class Menu {
                     break;
 
                 case 4: // delete last task or by index
-                    System.out.println("Please, show the index of the task you want to delete: "); //please, add the list off tasks after deleting
+                    System.out.println("Please, show the index of the task you want to delete: ");
+                    //please, add the list off tasks after deleting
                     in.nextLine();
-                    tasks.remove();
+                    remove();//doesn't work
                     System.out.println("You have successfully deleted a task ");
+                    System.out.println(tasks); // fix it, show tasks
                     break;
 
                 case 0:
@@ -96,7 +97,12 @@ public class Menu {
         }
     }
 
-    public void save(ArrayList<Task> list){
+    private TaskList remove() { //need to implement numbering of tasks
+        for (int count = 1; count < tasks.size(); count--);
+        return tasks;
+    }
+
+    private void save(ArrayList<Task> list){
         try{
             FileOutputStream fileOutputStream = new FileOutputStream("tasklist");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -107,7 +113,7 @@ public class Menu {
         }
     }
 
-    public void load(){
+    private void load(){
         try{
             FileInputStream fileInputStream = new FileInputStream("tasklist");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);

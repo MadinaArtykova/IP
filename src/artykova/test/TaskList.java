@@ -29,7 +29,5 @@ public class TaskList extends ArrayList<Task> implements Serializable {
         return size();
     }
 
-    public void remove() {
-        remove(count);
-    }
+
 }
