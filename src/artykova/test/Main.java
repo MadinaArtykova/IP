@@ -1,4 +1,4 @@
-
+package artykova.test;
 public class Main {
 
 
