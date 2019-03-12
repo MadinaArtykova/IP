@@ -1,6 +1,8 @@
+package artykova.test;
+
 import java.io.Serializable;
 
-public class Project implements Serializable { //why?
+public class Project implements Serializable {
     private String name;
 
 
@@ -16,9 +18,6 @@ public class Project implements Serializable { //why?
         this.name = name;
     }
 
-    public void sameProject(){
-        // here have to assign a same project if it is same as previous
-    }
 
     @Override
     public boolean equals(Object obj){

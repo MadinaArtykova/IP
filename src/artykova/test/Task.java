@@ -1,22 +1,23 @@
+package artykova.test;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Task implements Serializable {
 
 
-    private LocalDate date;             // IF I put id number as a point to start writing tasks into a file
-    private boolean status;             // I need new field named id or maybe date also be good for it..?
+    private LocalDate date;
+    private boolean status;
     private Project project;
     private String title;
 
+
     public Task(LocalDate date, boolean status, Project project, String title) {
+
+
         this.date = date;
         this.status = status;
         this.project = project;
         this.title = title;
-    }
-
-    public Task() {
 
     }
 
@@ -38,6 +39,7 @@ public class Task implements Serializable {
     public void setStatus(boolean status) {
 
         this.status = status;
+
     }
 
     public Project getProject() {
@@ -59,8 +61,6 @@ public class Task implements Serializable {
 
         this.title = title;
     }
-
-
 
     @Override
     public String toString() {
