@@ -1,9 +1,9 @@
 package artykova.test;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.function.IntFunction;
 
-public class Task implements Serializable {
-
+public class Task extends TaskList implements Serializable, Comparable<Task> {
 
     private LocalDate date;
     private boolean status;
@@ -13,12 +13,10 @@ public class Task implements Serializable {
 
     public Task(LocalDate date, boolean status, Project project, String title) {
 
-
         this.date = date;
         this.status = status;
         this.project = project;
         this.title = title;
-
     }
 
     public LocalDate getDate() {
@@ -39,7 +37,6 @@ public class Task implements Serializable {
     public void setStatus(boolean status) {
 
         this.status = status;
-
     }
 
     public Project getProject() {
@@ -64,7 +61,12 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return this.title + " " + this.status + " " + this.project.getName() + " " + this.date;
+        return this.title + " " + getStatus() + " " + this.project.getName() + " " + this.date;
+    }
+
+    @Override
+    public <T> T[] toArray(IntFunction<T[]> generator) {
+        return null;
     }
 
     @Override
@@ -77,6 +79,21 @@ public class Task implements Serializable {
                 newTask.project.equals(this.project) &&
                 newTask.status == ((Task) obj).status;
     }
+
+    @Override
+    public int compareTo(Task otherTask) {
+        return date.compareTo(otherTask.date);
+    }
+
+    public String getStatus() {
+        if(status == true){
+            return "Done";
+        }
+        else{
+            return "TODO";
+        }
+    }
 }
+
 
 
