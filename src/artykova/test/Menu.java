@@ -5,23 +5,26 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
 
+    Project pr;
     TaskList tasks = new TaskList();
+
+    Scanner in =  new Scanner(System.in);
+
 
 
     public void setMenu() {
-
+        System.out.println();
         load();
         int choice = 1;
         while (choice != 0) {
             System.out.println();
             System.out.println(">> Welcome to TO-DO List");
             System.out.println("==========================================");
-            System.out.println("You have X tasks todo and Y task are done!"); // stream filter not done yet
+            System.out.println(">> You have " + countedByStatus()[0] + " task TODO and " + countedByStatus()[1] + " task DONE!");
             System.out.println("==========================================");
             System.out.println(">>  Pick an option: ");
             System.out.println();
@@ -33,62 +36,62 @@ public class Menu {
             System.out.println();
             System.out.println(">>  Enter your menu choice: ");
 
-            Scanner in = new Scanner(System.in);
-            choice = in.nextInt();
-            in.nextLine();
+            try{
+                String userInput = in.next();
+                choice = Integer.parseInt(userInput);
+            }catch( NumberFormatException nfe) {
+                System.out.println(nfe.getMessage());
+                System.out.println("user has inserted a non integer value") ;
+            }
 
-
+            try{
             switch (choice) {
 
-                case 1: // Showing a size of tasks NEED TO OPTIMIZE AND SIMPLIFY
-
+                case 1:
                     System.out.println();
                     System.out.println("You have " + tasks.getSize() + " tasks: ");
-                    System.out.println("Please, select your option: 1.Show tasks by date  2.Show tasks by project ");
+                    printList();
+                    System.out.println();
+                    System.out.println(">> 1. Show tasks by project");
                     int show = in.nextInt();
-                    if(show == 1){
-                        System.out.println("--------------------------------------------------------------------");
-                        System.out.println("Num" + "\t" + "\t" + "Date" + "\t" + "\t" +  "Project"+ "\t" + "\t" + "Title"
-                                                 + "\t" + "\t" +  "Status");
-                        System.out.println();
-                        printList();
-                    } else if (show == 2){
-                        System.out.println("--------------------------------------------------------------------");
-                        System.out.println("Num" + "\t" + "\t" + "Project" + "\t" + "\t" + "Date" + "\t" + "\t" + "Title"
-                                                 + "\t" + "\t" + "Status");
+                    if (show == 1) {
+                        System.out.println("----------------------------------------------------------------");
+                        printListOrderedByProject();
                     }
-
                     break;
 
                 case 2: // Adding a task
                     System.out.println("Enter date (YYYY-MM-DD) of the task: ");
-                    LocalDate date = LocalDate.parse(in.nextLine());
+                    LocalDate date = LocalDate.parse(in.next());
 
                     System.out.println("Enter project of the task: ");
-                    Project project = new Project(in.nextLine());
+                    Project project = new Project(in.next());
 
                     System.out.println("Enter title of the task: ");
-                    String title = in.nextLine();
+                    String title = in.next();
 
                     Task n = new Task(date, false, project, title);
 
                     tasks.addTask(n);
                     System.out.println();
-                    System.out.println("You have added a new task: " + n + "\t");
+                    System.out.println("You have added a new task: " + n);
                     System.out.println("--------------------------------------------------------------------");
                     printList();
                     System.out.println();
                     break;
 
                 case 3: //update task or change status
-                    System.out.println("Please, select your option: 1.Update task  2.Mark as done ");
+                    printList();
+                    System.out.println("Please, select your option: 1. Update task   2. Mark as done ");
                     int optionIs = in.nextInt();
-                    System.out.println("Please, select the number of the task: ");
-                    int index = in.nextInt();
-
-                    if(optionIs == 1){
-                        updateTasks(index);
-                    } else if (optionIs == 2){
+                    System.out.println();
+                    if (optionIs == 1) {
+                        System.out.println("Select number of a task you want to update: ");
+                        int index = in.nextInt();
+                        updateTask(index);
+                    } else if (optionIs == 2) {
+                        System.out.println("Select number of a task you want to change: ");
+                        int index = in.nextInt();
                         markAsDone(index);
                     } else {
                         System.out.println("You entered invalid option number ");
@@ -97,11 +100,11 @@ public class Menu {
 
                 case 4: // delete task by number
                     System.out.println();
-                    System.out.println("-------------------------------------------------------");
+                    System.out.println("--------------------------------------------------------------------");
                     printList();
                     System.out.println("Please, select number of the task you want to delete: ");
                     int taskIndex = in.nextInt();
-                    removeTask(taskIndex);
+                    removeTaskByIndex(taskIndex);
                     System.out.println("You have successfully deleted a task ");
                     printList();
                     break;
@@ -112,46 +115,92 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.println("Sorry, but " + choice + " is not one of " +
-                            "the menu choices. Please try again.");
+                    System.out.println("Sorry, but " + choice + "is not one of " + "the menu choices. Please try again.");
                     break;
+            }
+
+            }catch(java.util.InputMismatchException ime){
+                System.out.println("Sorry, but you must enter a number.");
+                in.next();
             }
         }
     }
 
-    private void removeTask(int taskIndex) { //implementing numbering of tasks
-        tasks.remove(taskIndex - 1);
+    private void updateTask(int index) {
+        Task specTask = tasks.get(index-1);
+        System.out.println(tasks.get(index-1));
 
+        System.out.println("Enter the Date: ");
+        String userInputDate = in.next();
+        specTask.setDate(LocalDate.parse(userInputDate));
+
+        System.out.println("Enter the Project:\n");
+        String userInputProject = in.next();
+
+        specTask.getProject().setName(userInputProject);
+
+        System.out.println("Enter the Title:\n");
+        String userInputTitle = in.next();
+        specTask.setTitle(userInputTitle);
+    }
+
+
+    private void printListOrderedByDate() {
+        Collections.sort(tasks);
+        for (Task task: tasks) {
+            System.out.println( task.getDate() + "\t " + task.getProject().getName() + "\t "
+                    + task.getTitle() + "\t " + task.getStatus());
+        }
+    }
+
+    private void printListOrderedByProject() {
+        Collections.sort(tasks);
+        for(Task task: tasks){
+            System.out.println(task.getProject().getName() + "\t " + "\t "
+                    + task.getDate() +"\t "+ task.getTitle() + "\t " + task.getStatus());
+        }
     }
 
     private void markAsDone(int taskIndex) {
         tasks.get(taskIndex - 1).setStatus(true);
     }
 
-    private void updateTasks(int taskIndex) { // option 3.1 = didn't finished yet
-        tasks.get(taskIndex-1);
+    private void removeTaskByIndex(int taskIndex) {
+        tasks.remove(taskIndex - 1);
     }
-
 
     private String constructTaskLine(Task menuTask) {
         String s = "Done";
         if(!menuTask.isStatus())
             s = "TODO";
-        return ("\t " + menuTask.getDate() + "\t" + menuTask.getProject().getName() + "\t" + menuTask.getTitle() +
-                "\t"  + s);
+        return ("\t " + menuTask.getDate() + "\t" + menuTask.getProject().getName() + "\t" + menuTask.getTitle() + "\t"  + s);
     }
-
 
     private void printList() { // List will starts from 1
         for (int index = 0; index < tasks.size(); index++) {
             System.out.println((index + 1) + constructTaskLine(tasks.get(index)));
         }
     }
-
+    // Reporter that shows tasks counted by status in the menu title
+    private int[] countedByStatus() {
+        int[] counts = new int[2];
+        int doneCount = 0;
+        int toDoCount = 0;
+        for (Task t : tasks) {
+            if (t.isStatus()) {
+                doneCount++;
+            } else {
+                toDoCount++;
+            }
+        }
+        counts[0] = toDoCount;
+        counts[1] = doneCount;
+        return counts;
+    }
 
     private void save(ArrayList<Task> list) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("taskList");
+            FileOutputStream fileOutputStream = new FileOutputStream("taskList.txt");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(list);
             objectOutputStream.close();
@@ -162,12 +211,11 @@ public class Menu {
 
     private void load() {
         try {
-            FileInputStream fileInputStream = new FileInputStream("taskList");
+            FileInputStream fileInputStream = new FileInputStream("taskList.txt");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             tasks = (TaskList) objectInputStream.readObject();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-
 }

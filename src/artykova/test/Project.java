@@ -7,6 +7,7 @@ public class Project implements Serializable {
 
 
     public Project(String name) {
+
         this.name = name;
     }
 
@@ -18,7 +19,6 @@ public class Project implements Serializable {
         this.name = name;
     }
 
-
     @Override
     public boolean equals(Object obj){
         if (obj instanceof Project){
@@ -28,5 +28,4 @@ public class Project implements Serializable {
         }
         return false;
     }
-
 }
