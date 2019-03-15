@@ -47,20 +47,23 @@ public class Menu {
             try{
             switch (choice) {
 
-                case 1:
+                case 1: // Showing tasks
                     System.out.println();
                     System.out.println("You have " + tasks.getSize() + " tasks: ");
                     printList();
                     System.out.println();
-                    System.out.println(">> 1. Show tasks by project");
+                    System.out.println(">> 1. Show tasks ordered by project  >> 2. Show tasks ordered by date");
                     int show = in.nextInt();
                     if (show == 1) {
                         System.out.println("----------------------------------------------------------------");
                         printListOrderedByProject();
-                    }
+                    } else if (show == 2)
+                        System.out.println("----------------------------------------------------------------");
+                        printListOrderedByDate();
                     break;
 
                 case 2: // Adding a task
+                    try {
                     System.out.println("Enter date (YYYY-MM-DD) of the task: ");
                     LocalDate date = LocalDate.parse(in.next());
 
@@ -78,9 +81,13 @@ public class Menu {
                     System.out.println("--------------------------------------------------------------------");
                     printList();
                     System.out.println();
+
+                    } catch (Exception e){
+                        System.out.println("Please, enter date in the correct format (YYYY-MM-DD)");
+                    }
                     break;
 
-                case 3: //update task or change status
+                case 3: // Updating task or change status
                     printList();
                     System.out.println("Please, select your option: 1. Update task   2. Mark as done ");
                     int optionIs = in.nextInt();
@@ -98,7 +105,7 @@ public class Menu {
                     }
                     break;
 
-                case 4: // delete task by number
+                case 4: // Deleting task by a number
                     System.out.println();
                     System.out.println("--------------------------------------------------------------------");
                     printList();
